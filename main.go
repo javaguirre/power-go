@@ -1,21 +1,16 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
+
+	"github.com/power-go/lines"
 )
 
 func main() {
-	// hello.NewPrinter().Print("Pepe")
-	// fmt.Println(strconv.Itoa(counter.NewCounter().Next()))
-
-	lines := 0
-	scanner := bufio.NewScanner(os.Stdin)
-
-	for scanner.Scan() {
-		lines++
+	lineCount, err := lines.Lines()
+	if err != nil {
+		panic("There was an error in the program")
 	}
 
-	fmt.Println(lines)
+	fmt.Println(lineCount)
 }
