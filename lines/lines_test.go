@@ -52,3 +52,53 @@ func TestLinesValidInputInvalidOutput(t *testing.T) {
 		t.Errorf("Wanted error")
 	}
 }
+
+func TestLinesInputFromArgsValidArgs(t *testing.T) {
+	t.Parallel()
+	args := []string{"testdata/three_lines.txt"}
+	c, err := lines.NewCounter(
+		lines.WithInputFromArgs(args),
+	)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := 3
+	got := c.Lines()
+
+	if want != got {
+		t.Errorf("want %d, got %d", want, got)
+	}
+}
+
+func TestLinesInputFromArgsEmptyArgs(t *testing.T) {
+	t.Parallel()
+	args := []string{}
+	_, err := lines.NewCounter(
+		lines.WithInputFromArgs(args),
+	)
+
+	if err.Error() != "not enough arguments" {
+		t.Errorf("Should have errored with no args")
+	}
+}
+
+func TestWordsValidInputOutput(t *testing.T) {
+	t.Parallel()
+	inputBuf := bytes.NewBufferString("word1 word2 word3\n word4 word5 word6")
+	c, err := lines.NewCounter(
+		lines.WithInput(inputBuf),
+		lines.WithOutput(os.Stdout),
+	)
+	want := 6
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	got := c.Words()
+
+	if want != got {
+		t.Errorf("want %d, got %d", want, got)
+	}
+}

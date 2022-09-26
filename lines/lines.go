@@ -34,6 +34,22 @@ func WithOutput(output io.Writer) option {
 	}
 }
 
+func WithInputFromArgs(args []string) option {
+	return func(c *counter) error {
+		if len(args) < 1 {
+			return errors.New("not enough arguments")
+		}
+
+		f, err := os.Open(args[0])
+		if err != nil {
+			return errors.New("file does not exist")
+		}
+
+		c.input = f
+		return nil
+	}
+}
+
 func NewCounter(opts ...option) (counter, error) {
 	c := counter{
 		input:  os.Stdin,
@@ -61,7 +77,28 @@ func (c counter) Lines() int {
 	return lines
 }
 
+func (c counter) Words() int {
+	words := 0
+	scanner := bufio.NewScanner(c.input)
+	scanner.Split(bufio.ScanWords)
+
+	for scanner.Scan() {
+		words++
+	}
+
+	return words
+}
+
 func Lines() (int, error) {
-	c, err := NewCounter()
+	c, err := NewCounter(
+		WithInputFromArgs(os.Args),
+	)
 	return c.Lines(), err
+}
+
+func Words() (int, error) {
+	c, err := NewCounter(
+		WithInputFromArgs(os.Args),
+	)
+	return c.Words(), err
 }
