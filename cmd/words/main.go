@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/power-go/lines"
 )
 
 func main() {
