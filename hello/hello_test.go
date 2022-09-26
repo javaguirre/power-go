@@ -11,9 +11,12 @@ import (
 func TestPrintsHelloMessageToTerminal(t *testing.T) {
 	t.Parallel()
 	fakeTerminal := &bytes.Buffer{}
-	want := "Hello, Pepe"
+	want := "Hello, Pepe\n"
+	p := &hello.Printer{
+		Output: fakeTerminal,
+	}
 
-	hello.PrintTo(fakeTerminal, "Pepe")
+	p.Print("Pepe")
 	got := fakeTerminal.String()
 
 	if want != got {

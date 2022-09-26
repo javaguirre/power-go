@@ -3,12 +3,23 @@ package hello
 import (
 	"fmt"
 	"io"
+	"os"
 	"time"
 )
 
-func PrintTo(writer io.Writer, name string) {
-	message := "Hello, " + name
-	writer.Write([]byte(message))
+type Printer struct {
+	Output io.Writer
+}
+
+func NewPrinter() *Printer {
+	return &Printer{
+		Output: os.Stdout,
+	}
+}
+
+func (p *Printer) Print(name string) {
+	message := "Hello, " + name + "\n"
+	p.Output.Write([]byte(message))
 }
 
 func PrintTime(writer io.Writer, theTime *time.Time) {
