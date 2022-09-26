@@ -22,7 +22,7 @@ func TestSetCounterToTwo(t *testing.T) {
 func TestSetCounterToAnyNumber(t *testing.T) {
 	t.Parallel()
 	want := 5
-	counter := counter.NewNumCounter()
+	counter := counter.NewCounter()
 
 	counter.Set(5)
 	got := counter.Count
