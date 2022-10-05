@@ -9,7 +9,13 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${fileDirname}"
+            "program": "${fileDirname}",
+            "args": [
+                "Santander,ES"
+            ],
+            "env": {
+                "OPENWEATHERMAP_API_KEY": "MYKEY"
+            }
         }
     ]
 }

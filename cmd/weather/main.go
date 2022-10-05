@@ -13,11 +13,17 @@ import (
 const BaseURL = "https://api.openweathermap.org"
 
 func main() {
+	if len(os.Args) < 2 {
+		log.Fatalf("Usage: %s LOCATION\n\nExample %[1]s Cordoba, ES", os.Args[0])
+	}
+
+	location := os.Args[1]
+
 	key := os.Getenv("OPENWEATHERMAP_API_KEY")
 	if key == "" {
 		log.Fatal("Please set the OPENWEATHERMAP_API_KEY!")
 	}
-	URL := fmt.Sprintf("%s/data/2.5/weather?q=Cordoba,ES&appid=%s", BaseURL, key)
+	URL := fmt.Sprintf("%s/data/2.5/weather?q=%s&appid=%s", BaseURL, location, key)
 
 	resp, err := http.Get(URL)
 	if err != nil {
