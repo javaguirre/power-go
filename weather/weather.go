@@ -11,12 +11,16 @@ import (
 )
 
 type Conditions struct {
-	Summary string
+	Summary     string
+	Temperature float64
 }
 
 type OWMResponse struct {
 	Weather []struct {
 		Main string
+	}
+	Main struct {
+		Temp float64
 	}
 }
 
@@ -44,6 +48,7 @@ func RunCLI() {
 	}
 
 	fmt.Printf("Conditions: %s\n", conditions.Summary)
+	fmt.Printf("Temperature: %f\n", conditions.Temperature)
 }
 
 func Get(location string, key string) (Conditions, error) {
@@ -96,7 +101,8 @@ func (w *WeatherClient) ParseResponse(data []byte) (Conditions, error) {
 	}
 
 	conditions := Conditions{
-		Summary: resp.Weather[0].Main,
+		Summary:     resp.Weather[0].Main,
+		Temperature: resp.Main.Temp,
 	}
 
 	return conditions, nil

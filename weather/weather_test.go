@@ -20,7 +20,8 @@ func TestParseResponse(t *testing.T) {
 	}
 
 	want := weather.Conditions{
-		Summary: "Clear",
+		Summary:     "Clear",
+		Temperature: 285.9,
 	}
 
 	got, err := client.ParseResponse(data)
@@ -89,7 +90,8 @@ func TestGetWeather(t *testing.T) {
 
 	location := "Mars"
 	want := weather.Conditions{
-		Summary: "Clear",
+		Summary:     "Clear",
+		Temperature: 285.9,
 	}
 
 	got, err := client.GetWeather(location)
