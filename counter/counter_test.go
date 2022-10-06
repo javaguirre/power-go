@@ -31,3 +31,19 @@ func TestSetCounterToAnyNumber(t *testing.T) {
 		t.Errorf("NOOOO")
 	}
 }
+
+// TODO Not sure yet how to make it so it doesn't stop all the execution
+// func TestRunCounterwithOneSecondSleep(t *testing.T) {
+// 	t.Parallel()
+// 	want := ""
+// 	counter := counter.NewNumCounter(counter.WithSleepTimeSeconds(1))
+// 	fakeTerminal := &bytes.Buffer{}
+// 	counter.Output = fakeTerminal
+
+// 	counter.Run()
+// 	got := fakeTerminal.String()
+
+// 	if !cmp.Equal(want, got) {
+// 		t.Error(cmp.Diff(want, got))
+// 	}
+// }
