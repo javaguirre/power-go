@@ -10,9 +10,11 @@ import (
 	"time"
 )
 
+type Temperature float64
+
 type Conditions struct {
 	Summary     string
-	Temperature float64
+	Temperature Temperature
 }
 
 type OWMResponse struct {
@@ -47,8 +49,7 @@ func RunCLI() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Conditions: %s\n", conditions.Summary)
-	fmt.Printf("Temperature: %f\n", conditions.Temperature)
+	fmt.Printf("%s %.1fºC\n\n", conditions.Summary, conditions.Temperature)
 }
 
 func Get(location string, key string) (Conditions, error) {
@@ -102,7 +103,7 @@ func (w *WeatherClient) ParseResponse(data []byte) (Conditions, error) {
 
 	conditions := Conditions{
 		Summary:     resp.Weather[0].Main,
-		Temperature: resp.Main.Temp,
+		Temperature: Temperature(resp.Main.Temp),
 	}
 
 	return conditions, nil
@@ -131,4 +132,10 @@ func (w *WeatherClient) MakeAPIRequest(URL string) ([]byte, error) {
 	}
 
 	return data, nil
+}
+
+const DIFF_KELVIN_CELSIUS = 273.15
+
+func (temp Temperature) Celsius() float64 {
+	return float64(temp) - DIFF_KELVIN_CELSIUS
 }
